@@ -1,0 +1,44 @@
+﻿<Window x:Class="DownloadFile.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:p="clr-namespace:DownloadFile.Properties" 
+        mc:Ignorable="d"
+        WindowState="{Binding Source={x:Static p:Settings.Default}, Path=WindowState, Mode=TwoWay}"
+        Height="{Binding Source={x:Static p:Settings.Default}, Path=Height, Mode=TwoWay}"
+        Width="{Binding Source={x:Static p:Settings.Default}, Path=Width, Mode=TwoWay}" 
+        Left="{Binding Source={x:Static p:Settings.Default}, Path=Left, Mode=TwoWay}" 
+        Top="{Binding Source={x:Static p:Settings.Default}, Path=Top, Mode=TwoWay}"
+        Title="Download file"
+        FontFamily="Century Gothic" FontSize="15"
+        Icon="Image(s)/Icon.png" 
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid FocusManager.FocusedElement="{Binding ElementName=Source}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label>URL:</Label>
+            <TextBox Name="Source" Grid.Column="1" VerticalContentAlignment="Center"></TextBox>
+            <Button Name="Download" Grid.Column="2" Width="100" Click="DownloadButton_Click">Download</Button>
+        </Grid>
+        <ProgressBar Name="ProgressBar" Grid.Row="1" Minimum="0" Maximum="100" Height="20" Visibility="Collapsed"></ProgressBar>
+        <TextBlock Grid.Row="1" Text="{Binding ElementName=ProgressBar, Path=Value, StringFormat={}{0:0.00}%}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding ElementName=ProgressBar, Path=Visibility}"/>
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <TextBox Name="Text" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" TextWrapping="WrapWithOverflow" Language="en-US" FontFamily="Consolas" Foreground="Blue"/>
+        </ScrollViewer>
+        <Label Name="Copyright" Grid.Row="3" HorizontalContentAlignment="Center" />
+    </Grid>
+</Window>
