@@ -49,11 +49,11 @@ namespace DownloadFile
                         Uri uri = new Uri(url);
                         client.DownloadStringAsync(uri);
 
-                        VisibilityElement(false, "Downloading...");
+                        VisibilityElement(false, new StringBuilder("Downloading..."));
                     }
                     catch (Exception error)
                     {
-                        VisibilityElement(true, string.Format("ERROR: {0}", error.Message));
+                        VisibilityElement(true, new StringBuilder(string.Format("ERROR: {0}", error.Message)));
                         MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 });
@@ -63,7 +63,7 @@ namespace DownloadFile
             else
             {
                 MessageBox.Show("Invalid empty URL!", "Oops", MessageBoxButton.OK, MessageBoxImage.Warning);
-                VisibilityElement(true, "");
+                VisibilityElement(true, new StringBuilder(""));
             }
         }
 
@@ -73,14 +73,14 @@ namespace DownloadFile
             {
                 Thread th = new Thread(() =>
                 {
-                    VisibilityElement(true, e.Result);
+                    VisibilityElement(true, new StringBuilder(e.Result));
                 });
 
                 th.Start();
             }
             catch (Exception error)
             {
-                VisibilityElement(true, string.Format("ERROR: {0}", error.Message));
+                VisibilityElement(true, new StringBuilder(string.Format("ERROR: {0}", error.Message)));
                 MessageBox.Show(error.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -95,7 +95,7 @@ namespace DownloadFile
             });
         }
 
-        private void VisibilityElement(bool show, string text)
+        private void VisibilityElement(bool show, StringBuilder text)
         {
             Regex rError = new Regex("^ERROR:");
             Regex rDownloading = new Regex("^Downloading...$");
@@ -104,10 +104,10 @@ namespace DownloadFile
             {
                 Download.IsEnabled = show;
                 ProgressBar.Visibility = show ? Visibility.Collapsed : Visibility.Visible;
-                Text.Text = text;
+                Text.Text = text.ToString();
 
-                if (rError.IsMatch(text)) Text.Foreground = Brushes.Red;
-                else if (rDownloading.IsMatch(text)) Text.Foreground = Brushes.Green;
+                if (rError.IsMatch(text.ToString())) Text.Foreground = Brushes.Red;
+                else if (rDownloading.IsMatch(text.ToString())) Text.Foreground = Brushes.Green;
                 else
                 {
                     Text.Foreground = Brushes.Blue;
